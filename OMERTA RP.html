@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#08090c">
+<title>OMERTA RP</title>
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;user-select:none}
+html,body{height:100%;margin:0;background:#08090c;color:#fff;font-family:Arial,sans-serif;overflow:hidden;touch-action:manipulation}
+.hero{position:relative;height:100%;overflow:hidden;display:flex;flex-direction:column;justify-content:space-between;padding:26px 22px;
+background:linear-gradient(0deg,#08090c 6%,transparent 70%),radial-gradient(ellipse at 70% 20%,#5a0f1c 0%,transparent 60%),linear-gradient(#14070b,#0b0c11)}
+.sky{position:absolute;left:0;right:0;bottom:30%;height:38%;z-index:0;opacity:.9}
+.hero:before{content:"";position:absolute;inset:0;border-bottom:3px solid #c8192e;pointer-events:none;z-index:3}
+.shake{animation:shake .25s}
+@keyframes shake{0%{transform:translate(0)}20%{transform:translate(-6px,4px)}40%{transform:translate(5px,-5px)}60%{transform:translate(-4px,-3px)}80%{transform:translate(3px,3px)}100%{transform:translate(0)}}
+header,.content,footer{position:relative;z-index:2}
+header{display:flex;justify-content:space-between;align-items:center}
+.logo{font-size:22px;font-weight:900;letter-spacing:4px}.logo span{color:#d21e36}
+.status{font-size:10px;color:#69df9b;letter-spacing:2px}
+.ammo{font-size:11px;letter-spacing:2px;color:#d5ad65;margin-top:6px;text-align:right}
+.content{margin-top:auto;margin-bottom:26px;animation:appear 1.2s ease}
+@keyframes appear{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.tag{color:#d5ad65;font-size:11px;letter-spacing:4px}
+h1{font-size:48px;line-height:.95;margin:15px 0;font-weight:900}
+h1 span{color:#d21e36;text-shadow:0 0 18px #d21e3688;animation:pulse 2.4s infinite}
+@keyframes pulse{50%{text-shadow:0 0 34px #ff2b47}}
+.desc{color:#aaa;font-size:13px;line-height:1.8}
+.btn{width:100%;padding:18px;border:0;margin-top:22px;background:#c8192e;color:#fff;font-weight:900;letter-spacing:3px;font-size:13px;clip-path:polygon(0 0,100% 0,100% 75%,94% 100%,0 100%)}
+.btn:active{background:#850d1c}
+.stats{display:flex;justify-content:space-between;border-top:1px solid #ffffff25;padding-top:18px;margin-top:22px}
+.stat small{display:block;color:#888;font-size:9px;letter-spacing:2px}.stat b{font-size:18px;margin-top:7px;display:block}
+footer{text-align:center;color:#777;font-size:9px;letter-spacing:3px}
+.hint{position:absolute;top:96px;left:0;right:0;text-align:center;font-size:10px;letter-spacing:3px;color:#ffffff66;z-index:2;animation:blink 1.6s infinite}
+@keyframes blink{50%{opacity:.2}}
+canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+#decals{z-index:2}#fx{z-index:4}
+.drips{position:absolute;top:0;left:0;right:0;height:0;z-index:3;pointer-events:none}
+.drip{position:absolute;top:0;width:8px;border-radius:0 0 8px 8px;background:linear-gradient(#7a0a18,#c8192e);animation:drip 7s ease-in infinite;height:0}
+.drip:after{content:"";position:absolute;bottom:-6px;left:-1px;width:10px;height:10px;border-radius:50% 50% 50% 50%/40% 40% 60% 60%;background:#c8192e}
+@keyframes drip{0%{height:0;opacity:1}60%{height:var(--h);opacity:1}100%{height:calc(var(--h) + 40px);opacity:0}}
+.flash{position:absolute;inset:0;background:#ffd9a0;opacity:0;z-index:5;pointer-events:none;mix-blend-mode:screen}
+.vig{position:absolute;inset:0;z-index:3;pointer-events:none;background:radial-gradient(ellipse at center,transparent 55%,#40000e99 100%)}
+.ov{position:absolute;inset:0;z-index:6;background:#08090cee;display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:30px}
+.ov.on{display:flex;animation:appear .6s}
+.ov h2{font-size:30px;letter-spacing:4px;margin:0 0 12px}.ov h2 span{color:#d21e36}
+.ov p{color:#aaa;font-size:13px;letter-spacing:2px}
+.ov .ghost{margin-top:16px;padding:12px 30px;background:transparent;border:1px solid #c8192e;color:#fff;letter-spacing:3px;font-size:11px}
+.dc{background:#5865F2}.dc:active{background:#3c46b5}.dc b{margin-right:8px}
+.card{width:100%;max-width:340px;padding:26px 22px;background:#12131acc;border:1px solid #ffffff18;border-top:2px solid #c8192e;backdrop-filter:blur(10px)}
+.av{width:72px;height:72px;border-radius:50%;background:#5865F2;margin:0 auto 14px;font-size:30px;font-weight:900;display:flex;align-items:center;justify-content:center;border:3px solid #c8192e}
+.row{display:flex;justify-content:space-between;font-size:10px;letter-spacing:2px;padding:10px 0;border-bottom:1px solid #ffffff15;color:#888}.row b{color:#fff;font-size:11px}
+.bg{position:absolute;inset:0;z-index:0;overflow:hidden}
+.bg i{position:absolute;border-radius:50%;filter:blur(60px);opacity:.5}
+.o1{width:260px;height:260px;background:#c8192e;top:-60px;right:-80px;animation:fl 9s ease-in-out infinite alternate}
+.o2{width:220px;height:220px;background:#d5ad65;top:38%;left:-100px;opacity:.22;animation:fl 11s ease-in-out infinite alternate-reverse}
+.o3{width:300px;height:300px;background:#5a0f1c;bottom:5%;right:-130px;animation:fl 13s ease-in-out infinite alternate}
+@keyframes fl{to{transform:translate(40px,60px) scale(1.2)}}
+.grid{position:absolute;left:-50%;right:-50%;bottom:0;height:42%;background:linear-gradient(#ff2b4738 1px,transparent 1px) 0 0/100% 34px,linear-gradient(90deg,#ff2b4738 1px,transparent 1px) 0 0/48px 100%;transform:perspective(300px) rotateX(62deg);transform-origin:bottom;animation:gm 1.6s linear infinite;-webkit-mask-image:linear-gradient(transparent,#000);mask-image:linear-gradient(transparent,#000)}
+@keyframes gm{to{background-position:0 34px,0 0}}
+.scan{position:absolute;inset:0;background:repeating-linear-gradient(transparent 0 2px,#00000030 2px 3px)}
+</style>
+</head>
+<body>
+<div class="hero" id="hero">
+<div class="bg"><i class="o1"></i><i class="o2"></i><i class="o3"></i><div class="grid"></div><div class="scan"></div></div>
+<svg class="sky" viewBox="0 0 400 140" preserveAspectRatio="none"><path fill="#07080b" d="M0 140V80h20V50h22v30h14V30h26v50h18V60h24v20h16V40h30v40h20V20h24v60h18V70h22v10h16V45h28v35h20V65h24v75z"/><g fill="#d5ad65" opacity=".55"><rect x="26" y="58" width="3" height="3"/><rect x="100" y="42" width="3" height="3"/><rect x="152" y="66" width="3" height="3"/><rect x="214" y="48" width="3" height="3"/><rect x="262" y="30" width="3" height="3"/><rect x="330" y="52" width="3" height="3"/></g></svg>
+<div class="vig"></div>
+<canvas id="decals"></canvas>
+<div class="drips" id="drips"></div>
+<div class="hint">TAP TO SHOOT</div>
+<header>
+ <div class="logo">OMERTA<span>.</span>RP</div>
+ <div><div class="status">● MOBILE EDITION</div><div class="ammo" id="ammo">AMMO 12 / 12</div></div>
+</header>
+<main class="content">
+ <div class="tag">WELCOME TO THE FAMILY</div>
+ <h1>RULE THE<br><span>STREETS.</span></h1>
+ <p class="desc">YOUR STORY. YOUR CITY. YOUR RULES.<br>ENTER THE WORLD OF OMERTA ROLEPLAY.</p>
+ <button class="btn dc" id="go"><b>◆</b>LOGIN WITH DISCORD</button>
+ <div class="stats">
+  <div class="stat"><small>SERVER</small><b>OMERTA RP</b></div>
+  <div class="stat"><small>STATUS</small><b>DEMO</b></div>
+  <div class="stat"><small>PLAYERS</small><b>-- / --</b></div>
+ </div>
+</main>
+<footer>OMERTA ROLEPLAY © 2026 — ALL RIGHTS RESERVED</footer>
+<canvas id="fx"></canvas>
+<div class="flash" id="flash"></div>
+<div class="ov" id="ov"><div class="card">
+<div id="s1"><h2>CONNECT <span>DISCORD</span></h2><p>LINK YOUR ACCOUNT TO ACCESS THE WHITELIST</p><button class="btn dc" id="auth"><b>◆</b>AUTHORIZE WITH DISCORD</button><button class="ghost" id="close">CANCEL</button></div>
+<div id="s2" style="display:none"><div class="av" id="av"></div><h2 id="un"></h2><p id="meta">CONNECTED</p><div class="row"><span>DISCORD ID</span><b id="did"></b></div><div class="row"><span>WHITELIST</span><b id="wl">PENDING</b></div><button class="btn" id="launch">ENTER LAUNCHER →</button><button class="ghost" id="logout">DISCONNECT</button></div>
+</div></div>
+</div>
+<script>
+var hero=document.getElementById('hero'),fx=document.getElementById('fx'),dc=document.getElementById('decals'),
+c=fx.getContext('2d'),d=dc.getContext('2d'),flash=document.getElementById('flash'),ammoEl=document.getElementById('ammo'),
+W=0,H=0,P=[],T=[],ammo=12,reloading=false,actx=null;
+function size(){var r=hero.getBoundingClientRect(),k=Math.min(window.devicePixelRatio||1,2);
+ [fx,dc].forEach(function(cv){cv.width=r.width*k;cv.height=r.height*k});
+ c.setTransform(k,0,0,k,0,0);d.setTransform(k,0,0,k,0,0);W=r.width;H=r.height}
+size();addEventListener('resize',size);
+// blood drips from the top
+var dr=document.getElementById('drips');
+for(var i=0;i<9;i++){var e=document.createElement('div');e.className='drip';
+ e.style.left=(6+i*11+Math.random()*5)+'%';e.style.width=(5+Math.random()*6)+'px';
+ e.style.setProperty('--h',(50+Math.random()*130)+'px');
+ e.style.animationDelay=(-Math.random()*7)+'s';e.style.animationDuration=(5+Math.random()*5)+'s';dr.appendChild(e)}
+// sound
+function snd(){try{
+ actx=actx||new (window.AudioContext||window.webkitAudioContext)();
+ var n=actx.sampleRate*0.35,b=actx.createBuffer(1,n,actx.sampleRate),a=b.getChannelData(0);
+ for(var i=0;i<n;i++)a[i]=(Math.random()*2-1)*Math.pow(1-i/n,3.5);
+ var s=actx.createBufferSource(),f=actx.createBiquadFilter(),g=actx.createGain();
+ s.buffer=b;f.type='lowpass';f.frequency.value=1800;g.gain.value=.7;
+ s.connect(f);f.connect(g);g.connect(actx.destination);s.start();
+ var o=actx.createOscillator(),og=actx.createGain();o.frequency.setValueAtTime(140,actx.currentTime);
+ o.frequency.exponentialRampToValueAtTime(40,actx.currentTime+.15);og.gain.setValueAtTime(.8,actx.currentTime);
+ og.gain.exponentialRampToValueAtTime(.001,actx.currentTime+.18);o.connect(og);og.connect(actx.destination);o.start();o.stop(actx.currentTime+.2)}catch(e){}}
+function click(){try{actx=actx||new (window.AudioContext||window.webkitAudioContext)();
+ var o=actx.createOscillator(),g=actx.createGain();o.type='square';o.frequency.value=900;g.gain.setValueAtTime(.15,actx.currentTime);
+ g.gain.exponentialRampToValueAtTime(.001,actx.currentTime+.05);o.connect(g);g.connect(actx.destination);o.start();o.stop(actx.currentTime+.06)}catch(e){}}
+function hole(x,y){
+ var g=d.createRadialGradient(x,y,0,x,y,16);g.addColorStop(0,'#000');g.addColorStop(.35,'#000c');g.addColorStop(1,'#0000');
+ d.fillStyle=g;d.beginPath();d.arc(x,y,16,0,7);d.fill();
+ d.strokeStyle='#ffffff40';d.lineWidth=1;
+ for(var i=0;i<7;i++){var a=Math.random()*6.28,l=10+Math.random()*26;d.beginPath();d.moveTo(x,y);d.lineTo(x+Math.cos(a)*l,y+Math.sin(a)*l);d.stroke()}
+ d.fillStyle='#050505';d.beginPath();d.arc(x,y,3.5,0,7);d.fill()}
+function stain(x,y,r){d.fillStyle='rgba('+(110+Math.random()*60|0)+',8,22,.8)';d.beginPath();d.arc(x,y,r,0,7);d.fill()}
+function blood(x,y,n){for(var i=0;i<n;i++){var a=Math.random()*6.28,s=1+Math.random()*7;
+ P.push({x:x,y:y,vx:Math.cos(a)*s,vy:Math.sin(a)*s-2,r:1+Math.random()*3.2,l:1})}
+ stain(x,y,6+Math.random()*8);
+ for(var j=0;j<Math.ceil(n/6);j++)stain(x+(Math.random()-.5)*50,y+(Math.random()-.5)*50,2+Math.random()*5)}
+function shoot(x,y,big){
+ if(reloading)return;
+ if(ammo<=0){click();reload();return}
+ ammo--;ammoEl.textContent='AMMO '+ammo+' / 12';
+ snd();
+ T.push({x0:W*(.3+Math.random()*.4),y0:H+10,x1:x,y1:y,l:1});
+ flash.style.transition='none';flash.style.opacity=.35;
+ requestAnimationFrame(function(){flash.style.transition='opacity .18s';flash.style.opacity=0});
+ hero.classList.remove('shake');void hero.offsetWidth;hero.classList.add('shake');
+ hole(x,y);blood(x,y,big?55:28);
+ if(ammo===0)setTimeout(reload,500)}
+function reload(){if(reloading)return;reloading=true;ammoEl.textContent='RELOADING...';
+ setTimeout(function(){ammo=12;reloading=false;ammoEl.textContent='AMMO 12 / 12'},1100)}
+function loop(){
+ c.clearRect(0,0,W,H);
+ for(var i=T.length-1;i>=0;i--){var t=T[i];t.l-=.12;if(t.l<=0){T.splice(i,1);continue}
+  var g=c.createLinearGradient(t.x0,t.y0,t.x1,t.y1);g.addColorStop(0,'rgba(255,200,110,0)');g.addColorStop(1,'rgba(255,230,160,'+t.l+')');
+  c.strokeStyle=g;c.lineWidth=2.2;c.beginPath();c.moveTo(t.x0,t.y0);c.lineTo(t.x1,t.y1);c.stroke()}
+ for(var k=P.length-1;k>=0;k--){var p=P[k];p.vy+=.35;p.x+=p.vx;p.y+=p.vy;p.vx*=.97;p.l-=.02;
+  if(p.l<=0||p.y>H){if(p.y<H&&Math.random()<.5)stain(p.x,p.y,p.r*.8);P.splice(k,1);continue}
+  c.fillStyle='rgba(190,15,35,'+Math.min(1,p.l*1.5)+')';c.beginPath();c.arc(p.x,p.y,p.r,0,7);c.fill()}
+ requestAnimationFrame(loop)}
+loop();
+var ov=document.getElementById('ov');
+hero.addEventListener('pointerdown',function(e){
+ if(ov.classList.contains('on'))return;
+ var r=hero.getBoundingClientRect();
+ var gb=e.target.closest('#go');if(gb){var b=gb.getBoundingClientRect();shoot(b.left-r.left+b.width/2,b.top-r.top+b.height/2,true);
+  setTimeout(function(){openOv()},650);return}
+ shoot(e.clientX-r.left,e.clientY-r.top,false)});
+// ===== Discord link =====
+// Fill these with your web bridge (Discord OAuth2 -> MySQL). Empty clientId = demo mode.
+var CFG={clientId:'',redirect:'',scope:'identify'};
+var $=function(i){return document.getElementById(i)};
+function save(u){try{localStorage.setItem('omerta_user',JSON.stringify(u))}catch(e){}}
+function load(){try{return JSON.parse(localStorage.getItem('omerta_user'))}catch(e){return null}}
+function clear(){try{localStorage.removeItem('omerta_user')}catch(e){}}
+// the bridge can redirect back with ?discord_id=...&discord_name=...&wl=APPROVED
+var q=new URLSearchParams(location.search);
+if(q.get('discord_id')){save({id:q.get('discord_id'),name:q.get('discord_name')||'Player',wl:q.get('wl')||'PENDING'})}
+function view(){var u=load();$('s1').style.display=u?'none':'block';$('s2').style.display=u?'block':'none';
+ if(u){$('un').textContent=u.name;$('did').textContent=u.id;$('wl').textContent=u.wl;$('wl').style.color=u.wl==='APPROVED'?'#69df9b':'#d5ad65';$('av').textContent=u.name.charAt(0).toUpperCase()}}
+function openOv(){view();ov.classList.add('on')}
+$('close').addEventListener('click',function(){ov.classList.remove('on')});
+$('auth').addEventListener('click',function(){
+ if(CFG.clientId){location.href='https://discord.com/api/oauth2/authorize?client_id='+CFG.clientId+'&redirect_uri='+encodeURIComponent(CFG.redirect)+'&response_type=code&scope='+CFG.scope;return}
+ save({id:String(Math.floor(1e17+Math.random()*9e17)),name:'DemoPlayer',wl:'PENDING'});view()});
+$('logout').addEventListener('click',function(){clear();view()});
+$('launch').addEventListener('click',function(){$('meta').textContent='LAUNCHER COMING SOON'});
+if(load()){$('go').lastChild.textContent='CONNECTED — OPEN PROFILE'}
+</script>
+</body>
+</html>
