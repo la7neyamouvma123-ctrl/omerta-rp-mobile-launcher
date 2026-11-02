@@ -1,0 +1,17 @@
+
+{
+  "name": "omerta-rp-mobile-launcher",
+  "version": "1.0.0",
+  "private": true,
+  "description": "OMERTA RP Android Launcher",
+  "scripts": {
+    "android:sync": "cap sync android"
+  },
+  "dependencies": {
+    "@capacitor/core": "8.1.2",
+    "@capacitor/android": "8.1.2"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "8.1.2"
+  }
+}
